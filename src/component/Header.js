@@ -1,16 +1,14 @@
 import styled, { css } from 'styled-components';
 const HeaderBody = styled.div(
   css`
-    width: 100vw;
+    width: 100%;
     height: 150px;
-    background: gray;
-
-    position: fixed;
+    background: white;
   `
 );
 
 const Header = () => {
-  return <HeaderBody></HeaderBody>;
+  return <HeaderBody>Love for Love'Sake</HeaderBody>;
 };
 
 export default Header;
