@@ -10,7 +10,7 @@ const MainContent = styled.div(
   flexCol,
   css`
     width: 100%;
-    height: 100%;
+    flex-grow: 1;
     position: relative;
   `
 );
@@ -22,7 +22,7 @@ const BackImg = styled.img(
     position: absolute;
     opacity: 0.5;
 
-    background: url(images/background-02.jpg) no-repeat center center/cover;
+    object-fit: cover;
     filter: blur(6px);
   `
 );
@@ -32,6 +32,7 @@ const FrontDiv = styled.div(
   flexCol,
   css`
     width: 100%;
+    height: 100%;
     position: absolute;
   `
 );
@@ -40,6 +41,8 @@ const FrontImg = styled.img(
   css`
     object-fit: scale-down;
     width: 100%;
+    height: 0;
+    flex-grow: 1;
   `
 );
 
@@ -64,10 +67,10 @@ const Main = () => {
 
   const getRatio = () => {
     const root = $('#root');
-
-    if (root.width() / root.height() >= 1.0) {
+    console.log(`${root.width()} ${root.height()}`);
+    if (root.width() / root.height() >= 0.98) {
       setRatio('03');
-    } else if (root.width() / root.height() >= 0.7) {
+    } else if (root.width() / root.height() >= 0.73) {
       setRatio('02');
     } else {
       setRatio('01');
