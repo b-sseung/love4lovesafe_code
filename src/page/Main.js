@@ -5,6 +5,7 @@ import Footer from '../component/Footer';
 import Header from '../component/Header';
 import OfficialLink from '../component/OfficialLink';
 import { absoluteCenter, flexCol } from '../css/common';
+import MenuContainer from '../component/MenuContainer';
 
 const MainContent = styled.div(
   flexCol,
@@ -80,6 +81,7 @@ const Main = () => {
   return (
     <>
       <Header></Header>
+      <MenuContainer></MenuContainer>
       <MainContent>
         <BackImg alt="" src={bgImgUrl}></BackImg>
         <FrontDiv>

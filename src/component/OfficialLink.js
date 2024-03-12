@@ -3,7 +3,7 @@ import { flexRow } from '../css/common';
 
 const LinkParent = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   justify-items: center;
   padding: 10px 70px;
   background-color: white;
@@ -26,7 +26,7 @@ const OfficialLink = () => {
     X: 'twitter.png',
     인스타그램: 'instagram.png',
     원작: 'ridi.jpg',
-    포스타입: 'postype.png',
+    // 포스타입: 'postype.png',
   };
 
   return (
