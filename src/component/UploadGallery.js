@@ -2,14 +2,21 @@ import DatePicker from 'react-datepicker';
 import styled, {css} from 'styled-components';
 import 'react-datepicker/dist/react-datepicker.css';
 import $ from 'jquery';
-import { useState, forwardRef, useEffect } from 'react';
+import { useState, forwardRef, useEffect, useReducer } from 'react';
 import { getLocalJson } from './api';
 
 // react-datepicker, 
-const RadioButton = ({value, name, text}) => {
+
+const uploadFileForm = (state, action) => {
+    state = {...state, [action.type]: action.value};
+    console.log(state);
+    return state;
+}
+
+const RadioButton = ({value, name, text, onChange}) => {
     return (
         <>
-            <input type="radio" value={value} name={name} id={value}></input>
+            <input type="radio" value={value} name={name} id={value} onChange={()=>onChange('target', value)}></input>
             <label htmlFor={value}>{text}</label>
         </>
     );
@@ -45,44 +52,63 @@ const DatePickerInput = forwardRef(({value, onClick}, ref) => (
     <button style={DateInput} onClick={onClick} ref={ref}>{value}</button>
 ));
 
-const DropDown = styled(
-    css`
-
-    `
-)
-const DropDownList = () => {
+const SelectBox = ({name, onChange}) => {
     const [list, setList] = useState({});
-    const [select, setSelect] = useState({"title": "선택하기", "value": ""});
 
     useEffect(() => {
         const getList = async () => {
             const result = await getLocalJson('./sample.json', 'source');
             setList(result);
         }
-
         getList();
     }, []);
 
+    const onChangeValue = (e) => {
+        onChange('source', $(`select[name=${name}] option:selected`).val());
+    }
+
     return (
-        <DropDown>
-            <ul>{select['title']}
-                {Object.keys(list).map((key) => {
-                    const item = list[key];
-                    return <li key={item['content']} onClick={() => setSelect(item)}>{item['title']}</li>
-                })}
-            </ul>
-        </DropDown>
+        <select name={name} onChange={(e) => onChangeValue(e)}>
+            <option key='none' value=''>선택하기</option>
+            {Object.keys(list).map((key) => {
+                const item = list[key];
+                return (
+                    <option key={item['content']} value={item['content']}>{item['title']}</option>
+                )
+            })}
+        </select>
     )
 }
 
 const UploadGallery = () => {
+    const [initState, dispatch] = useReducer(uploadFileForm, 
+            {"date": "", "target": "", "file_data": "", "file_extension": "", 
+            "source": "", "source_url": "", "source_account": ""});
+
     const [selectDate, setSelectDate] = useState(new Date());
     const [month, setMonth] = useState(new Date().getMonth());
 
     const handleMonthChange = (date) => {
         setMonth(date.getMonth());
     };
-    
+
+    const changeState = (type, value) => {
+        dispatch({"type": type, "value": value});
+    }
+    const onLoadFile = (e) => {
+        const files = e.target.files;
+        console.log(files);
+
+        files.map(file => {
+            let fileReader = new FileReader();
+            fileReader.onload = () => {
+                console.log(fileReader.result);
+            fileReader.readAsDataURL(file);
+        }
+
+        });
+    }
+
     return (
         <>
             <div>
@@ -90,28 +116,38 @@ const UploadGallery = () => {
                 <CustomDatePicker>
                 <DatePicker
                     selected={selectDate} 
-                    onChange={(date) => setSelectDate(date)} 
+                    onChange={(date) => {changeState('date', date); setSelectDate(date);}} 
                     dateFormat='yyyy-MM-dd' 
                     customInput={<DatePickerInput />}
                     onMonthChange={handleMonthChange}
                     dayClassName={(d) =>
-                        d.getDate() === selectDate.getDate()
-                        ? 'custom-day selected-day'
-                        : d.getMonth() === month
-                        ? 'custom-day'
+                        d.getMonth() === month
+                        ? d.getDate() === selectDate.getDate()
+                            && d.getMonth() === selectDate.getMonth()
+                            ? 'custom-day selected-day'
+                            : 'custom-day'
                         : 'custom-day gray-day'
                     } ></DatePicker>
                 </CustomDatePicker>
             </div>
             <div>
                 <p>대상</p>
-                <RadioButton type="radio" value='common' name="target" text='공동'></RadioButton>
-                <RadioButton type="radio" value='joowan' name="target" text='차주완'></RadioButton>
-                <RadioButton type="radio" value='taebin' name="target" text='이태빈'></RadioButton>
+                <RadioButton value='common' name="target" text='공동' onChange={changeState}></RadioButton>
+                <RadioButton value='joowan' name="target" text='차주완' onChange={changeState}></RadioButton>
+                <RadioButton value='taebin' name="target" text='이태빈' onChange={changeState}></RadioButton>
             </div>
             <div>
                 <p>출처</p>
-                <DropDownList></DropDownList>
+                <SelectBox onChange={changeState} name='source'></SelectBox>
+            </div>
+            {(initState['source'] === 'instagram_story' || initState['source'] === 'instagram' || initState['source'] === 'twitter') && <div><p>출처 계정</p><input style={{width:'50%'}}></input></div>
+            }
+            {(initState['source'] === 'weibo' || initState['source'] === 'etd' || initState['source'] === 'twitter')
+                && <div><p>출처 URL</p><input style={{width:'100%'}}></input></div>}
+            <div>
+                <p>이미지</p>
+                <label style={{cursor: 'pointer'}} htmlFor="image">이미지 선택하기</label>
+                <input id='image' style={{display: 'none'}} type='file' onChange={onLoadFile} multiple></input>
             </div>
         </>
     )

@@ -1,0 +1,16 @@
+{
+    "list": {
+        "차주완": [{"name": "인물소개", "content": "/chajoowan"}, {"name": "인스타그램", "content": ""}],
+        "이태빈": [{"name": "인물소개", "content": "/leetaebin"}, {"name": "인스타그램", "content": ""}, {"name": "프롬", "content": ""}], 
+        "웨이보": [{"name": "주완&태빈_태그", "content": ""}, {"name": "차주완_태그", "content": ""}, {"name": "이태빈_공식", "content": ""}, {"name": "이태빈_태그", "content": ""}],
+        "갤러리": [{"name": "전체", "content": ""}, {"name": "차주완", "content": ""}, {"name": "이태빈", "content": ""}],
+        "미니게임": [{"name": "뱀 게임", "content": ""}]
+    },
+    "source": {
+        "0": {"title": "인스타그램 게시물", "content": "instagram"},
+        "1": {"title": "인스타그램 스토리", "content": "instagram_story"},
+        "2": {"title": "X", "content": "twitter"},
+        "3": {"title": "웨이보", "content": "weibo"},
+        "4": {"title": "기타", "content": "etd"}
+    }
+}
