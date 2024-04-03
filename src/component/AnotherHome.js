@@ -1,5 +1,8 @@
-import { BiPause, BiSkipPrevious, BiSkipNext, BiSolidHeartCircle, BiSolidHeart } from "react-icons/bi";
+import { useState, useRef } from "react";
+import { BiPause, BiSkipPrevious, BiSkipNext, BiSolidHeartCircle, BiSolidHeart, BiX } from "react-icons/bi";
 import styled, { css } from "styled-components";
+import AnotherHeader from "./AnotherHeader";
+import AnotherTransition from "./AnotherTransition";
 
 const flexRow = css`
     display: flex;
@@ -88,20 +91,15 @@ const PlayCircle = styled(BiSolidHeartCircle)
 ;
 
 const AnotherHome = () => {
-    const today = new Date();
-    const debut = new Date('2021-11-24');
-    let diff = Math.abs(today.getTime() - debut.getTime());
-    diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    const [playListImage, setPlayListImage] = useState();
+    const [playListIndex, setPlayListIndex] = useState();
+
 
     return (
         <ParentBox>
-            <ColumnBox style={{height: '100px'}}>
-                <p style={{fontFamily: 'Black Han Sans', fontSize: '25px'}}>{diff}일 째 사랑하는 중</p>
-                <p style={{fontSize: '13px'}}>차주완  찻잔</p>
-            </ColumnBox>
-            <ColumnBox style={{ flexGrow: '1', width: '100%', position: 'relative'}}>
+            <AnotherHeader></AnotherHeader>
+            <ColumnBox style={{ flexGrow: '1', width: '100%', position: 'relative', overflowY: 'hidden'}}>
                 <div style={{width:'90vw', flexGrow: '1', border:'1px solid black'}}>
-
                 </div>
                 <ColumnBox style={{height: '150px', marginBottom: '70px'}}>
                     <IconBox>
@@ -118,7 +116,7 @@ const AnotherHome = () => {
                         <p>19:99</p>
                     </PlayBox>
                 </ColumnBox>
-                <div style={{position: 'absolute', background: 'black', width: '100vw', height: '100%'}}></div>
+                <AnotherTransition></AnotherTransition>
             </ColumnBox>
         </ParentBox>
     )
