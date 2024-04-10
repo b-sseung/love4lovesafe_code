@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { CgProfile } from "react-icons/cg";
-import { FaWeibo, FaInstagram, FaRegBuilding  } from "react-icons/fa";
+import { FaWeibo, FaInstagram, FaRegBuilding, FaGlobe } from "react-icons/fa";
 import { MdOutlineCheckBox, MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 
 // "another": {
@@ -163,19 +163,38 @@ const NextContentItem = ({text, isPlay, index, onClickItem}) => {
     )
 }
 
-const InfoItem = ({text, link, type}) => {
-    const type1 = {
-        padding: '10px',
-        width: 'calc(100% / 2)',
-        aspectRatio: '1 / 1',
-    }
-    const type2 = {
-        padding: '10px',
-        width: 'calc(100% / 3)',
-        aspectRatio: '1 / 1',
-    }
+const InfoStyle = styled.div(
+    css`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 20%;
+        font-size: 10px;
+        margin: 10px;
+        aspect-ratio: 1 / 1;
+        justify-content: center;
 
-    
+        border: 1px dashed white;
+        border-radius: 10px;
+
+        cursor: pointer;
+
+        @media screen and (max-width: 400px) {
+            p {
+                display: none;
+            }
+          }
+    `
+)
+
+const InfoItem = ({icon, text, link}) => {
+    return (
+        <InfoStyle>
+            {icon}
+            <p>{text}</p>
+        </InfoStyle>
+    )
 }
 
 const AnotherTransition = ({list}) => {
@@ -238,18 +257,14 @@ const AnotherTransition = ({list}) => {
                         }
                     </SwipeBox>
                 </SwiperSlide>
-                <SwiperSlide>
-                    <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
+                <SwiperSlide style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
                         <div style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
-                            <InfoItem text='인물소개' value='1' link='' type='type1'></InfoItem>
-                            <InfoItem text='인스타그램' value='2' link='' type='type1'></InfoItem>
+                            <InfoItem icon={<CgProfile style={{width:'30px', height:'30px'}}/>} text='인물소개' link=''></InfoItem>
+                            <InfoItem icon={<FaInstagram style={{width:'30px', height:'30px'}}/>} text='인스타그램' link=''></InfoItem>
+                            <InfoItem icon={<FaWeibo style={{width:'30px', height:'30px'}}/>} text='웨이보' link=''></InfoItem>
+                            <InfoItem icon={<FaGlobe style={{width:'30px', height:'30px'}}/>} text='공식홈페이지' link=''></InfoItem>
+                            <InfoItem icon={<FaRegBuilding style={{width:'30px', height:'30px'}}/>} text='소속사' link=''></InfoItem>
                         </div>
-                        <div style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
-                            <InfoItem text='웨이보' value='3' link='' type='type2'></InfoItem>
-                            <InfoItem text='소속사' value='4' link='' type='type2'></InfoItem>
-                            <InfoItem text='공식홈페이지' value='5' link='' type='type2'></InfoItem>
-                        </div>
-                    </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div style={{width: '100%', height: '100%', background:'yellow'}}></div>
